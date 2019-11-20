@@ -4,14 +4,19 @@ import { makepuzzle, solvepuzzle } from 'sudoku';
 import Cell from './components/Cell';
 import './App.css';
 
-const puzzle = makepuzzle();
-const solution = solvepuzzle(puzzle).map(number => number + 1);
-
 function App() {
   const [playing, togglePlaying] = useState(false);
   const [time, setTime] = useState(0);
-  const [guesses, setGuesses] = useState(puzzle.map(number => (number ? number + 1 : null)));
+  const [puzzle, setPuzzle] = useState(Array.from(Array(81)));
+  const [guesses, setGuesses] = useState(null);
   const [status, setStatus] = useState(null);
+
+  function start() {
+    togglePlaying(true);
+    const newPuzzle = makepuzzle();
+    setPuzzle(newPuzzle);
+    setGuesses(puzzle.map(number => (number ? number + 1 : null)));
+  }
 
   useInterval(
     () => {
@@ -21,17 +26,24 @@ function App() {
   );
 
   useEffect(() => {
-    if (guesses.join('') === solution.join('')) {
+    if (
+      guesses &&
+      solvepuzzle(puzzle) &&
+      guesses.join('') ===
+        solvepuzzle(puzzle)
+          .map(number => number + 1)
+          .join('')
+    ) {
       setStatus('solved');
       togglePlaying(false);
-    } else if (guesses.every(guess => typeof guess === 'number')) {
+    } else if (guesses && guesses.every(guess => typeof guess === 'number')) {
       setStatus('filled');
     }
-  }, [guesses]);
+  }, [guesses, puzzle]);
 
   return (
     <div>
-      <button onClick={() => togglePlaying(true)}>Play</button>
+      <button onClick={start}>Play</button>
       <div className="grid">
         {puzzle.map((number, index) => (
           <Cell
