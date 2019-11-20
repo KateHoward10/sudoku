@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import useInterval from './hooks/useInterval';
-import { makepuzzle, solvepuzzle } from 'sudoku';
+import { makepuzzle, solvepuzzle, ratepuzzle } from 'sudoku';
 import Cell from './components/Cell';
 import './App.css';
 
@@ -8,6 +8,7 @@ function App() {
   const [playing, togglePlaying] = useState(false);
   const [time, setTime] = useState(0);
   const [puzzle, setPuzzle] = useState(Array.from(Array(81)));
+  const [rating, setRating] = useState(null);
   const [guesses, setGuesses] = useState(null);
   const [status, setStatus] = useState(null);
 
@@ -15,7 +16,26 @@ function App() {
     togglePlaying(true);
     const newPuzzle = makepuzzle();
     setPuzzle(newPuzzle);
-    setGuesses(puzzle.map(number => (number ? number + 1 : null)));
+    const newRating = getRating(ratepuzzle(newPuzzle, 5));
+    setRating(newRating);
+    setGuesses(newPuzzle.map(number => (number ? number + 1 : null)));
+  }
+
+  function getRating(number) {
+    switch (Math.floor(number)) {
+      case 0:
+        return 'Very Easy';
+      case 1:
+        return 'Easy';
+      case 2:
+        return 'Medium';
+      case 3:
+        return 'Hard';
+      case 4:
+        return 'Very Hard';
+      default:
+        return;
+    }
   }
 
   useInterval(
@@ -44,6 +64,7 @@ function App() {
   return (
     <div>
       <button onClick={start}>Play</button>
+      <p>{rating}</p>
       <div className="grid">
         {puzzle.map((number, index) => (
           <Cell
@@ -59,6 +80,7 @@ function App() {
               });
               setGuesses(newGuesses);
             }}
+            value={guesses && guesses[index] ? guesses[index] : undefined}
             status={status}
           />
         ))}
