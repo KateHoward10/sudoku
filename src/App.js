@@ -4,10 +4,16 @@ import './App.css';
 
 function App() {
   const puzzle = makepuzzle();
-  console.log(puzzle);
+
   return (
-    <div className="App">
-      <header className="App-header"></header>
+    <div>
+      <div className="grid">
+        {puzzle.map((number, index) => (
+          <div key={index} className="cell">
+            {number}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
