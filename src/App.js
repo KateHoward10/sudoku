@@ -1,5 +1,6 @@
 import React from 'react';
 import { makepuzzle } from 'sudoku';
+import Cell from './components/Cell';
 import './App.css';
 
 function App() {
@@ -9,9 +10,7 @@ function App() {
     <div>
       <div className="grid">
         {puzzle.map((number, index) => (
-          <div key={index} className="cell">
-            {number}
-          </div>
+          <Cell key={index} index={index} number={number ? number + 1 : null} />
         ))}
       </div>
     </div>
