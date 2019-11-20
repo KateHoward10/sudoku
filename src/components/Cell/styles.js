@@ -8,4 +8,14 @@ export const StyledCell = styled.div`
   border-bottom: ${props =>
       (props.index > 17 && props.index < 27) || (props.index > 44 && props.index < 54) ? 2 : 1}px
     solid grey;
+  font-size: 20px;
+  background-color: ${props => (props.correct ? 'lime' : 'transparent')};
+`;
+
+export const Input = styled.input`
+  width: 40px;
+  height: 40px;
+  border: none;
+  text-align: center;
+  font-size: 20px;
 `;
