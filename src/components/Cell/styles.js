@@ -1,16 +1,17 @@
 import styled from 'styled-components';
 
-export const StyledCell = styled.div`
+export const StyledCell = styled.div(
+  props => `
   display: flex;
   align-items: center;
   justify-content: center;
-  border-right: ${props => (props.index % 9 === 2 || props.index % 9 === 5 ? 2 : 1)}px solid grey;
-  border-bottom: ${props =>
-      (props.index > 17 && props.index < 27) || (props.index > 44 && props.index < 54) ? 2 : 1}px
+  border-right: ${props.index % 9 === 2 || props.index % 9 === 5 ? 2 : 1}px solid grey;
+  border-bottom: ${(props.index > 17 && props.index < 27) || (props.index > 44 && props.index < 54) ? 2 : 1}px
     solid grey;
   font-size: 20px;
-  background-color: ${props => (props.correct ? 'lime' : 'transparent')};
-`;
+  background-color: ${props.status === 'solved' ? 'lime' : props.status === 'filled' ? 'red' : 'transparent'};
+`
+);
 
 export const Input = styled.input`
   width: 40px;
@@ -18,4 +19,5 @@ export const Input = styled.input`
   border: none;
   text-align: center;
   font-size: 20px;
+  font-family: cursive;
 `;

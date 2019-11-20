@@ -1,18 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { StyledCell, Input } from './styles';
 
-function Cell({ index, number, answer }) {
-  const [correct, setCorrect] = useState(false);
-
-  function setNumber(e) {
-    if (parseInt(e.target.value) === answer) {
-      setCorrect(true);
-    }
-  }
-
+function Cell({ index, number, onEnter, status }) {
   return (
-    <StyledCell index={index} correct={correct}>
-      {number ? number : <Input onChange={setNumber} />}
+    <StyledCell index={index} status={status}>
+      {number ? number : <Input onChange={onEnter} />}
     </StyledCell>
   );
 }
