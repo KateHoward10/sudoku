@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import useInterval from './hooks/useInterval';
 import { makepuzzle, solvepuzzle, ratepuzzle } from 'sudoku';
+import Controls from './components/Controls';
 import Cell from './components/Cell';
 import './App.css';
 
@@ -16,26 +17,9 @@ function App() {
     togglePlaying(true);
     const newPuzzle = makepuzzle();
     setPuzzle(newPuzzle);
-    const newRating = getRating(ratepuzzle(newPuzzle, 5));
+    const newRating = ratepuzzle(newPuzzle, 5);
     setRating(newRating);
     setGuesses(newPuzzle.map(number => (number ? number + 1 : null)));
-  }
-
-  function getRating(number) {
-    switch (Math.floor(number)) {
-      case 0:
-        return 'Very Easy';
-      case 1:
-        return 'Easy';
-      case 2:
-        return 'Medium';
-      case 3:
-        return 'Hard';
-      case 4:
-        return 'Very Hard';
-      default:
-        return;
-    }
   }
 
   useInterval(
@@ -63,8 +47,7 @@ function App() {
 
   return (
     <div>
-      <button onClick={start}>Play</button>
-      <p>{rating}</p>
+      <Controls start={start} playing={playing} rating={rating} />
       <div className="grid">
         {puzzle.map((number, index) => (
           <Cell
