@@ -3,7 +3,7 @@ import useInterval from './hooks/useInterval';
 import { makepuzzle, solvepuzzle, ratepuzzle } from 'sudoku';
 import Controls from './components/Controls';
 import Cell from './components/Cell';
-import './App.css';
+import Grid from './components/Grid';
 
 function App() {
   const [playing, togglePlaying] = useState(false);
@@ -18,6 +18,7 @@ function App() {
     setStatus(null);
     togglePlaying(true);
     const newPuzzle = makepuzzle();
+    console.log(solvepuzzle(newPuzzle).map(number => number + 1));
     setPuzzle(newPuzzle);
     const newRating = ratepuzzle(newPuzzle, 5);
     setRating(newRating);
@@ -56,7 +57,7 @@ function App() {
   return (
     <div>
       <Controls start={start} giveUp={giveUp} playing={playing} rating={rating} />
-      <div className="grid">
+      <Grid status={status}>
         {puzzle.map((number, index) => (
           <Cell
             key={index}
@@ -75,7 +76,7 @@ function App() {
             status={status}
           />
         ))}
-      </div>
+      </Grid>
       <p>
         {Math.floor(time / 60) < 10 ? `0${Math.floor(time / 60)}` : Math.floor(time / 60)}:
         {time % 60 < 10 ? `0${time % 60}` : time % 60}
