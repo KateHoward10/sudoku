@@ -14,6 +14,8 @@ function App() {
   const [status, setStatus] = useState(null);
 
   function start() {
+    setPuzzle(Array.from(Array(81)).fill(null));
+    setStatus(null);
     togglePlaying(true);
     const newPuzzle = makepuzzle();
     setPuzzle(newPuzzle);
@@ -23,6 +25,7 @@ function App() {
   }
 
   function giveUp() {
+    setStatus(null);
     togglePlaying(false);
     setPuzzle(solvepuzzle(puzzle));
   }
@@ -44,7 +47,6 @@ function App() {
           .join('')
     ) {
       setStatus('solved');
-      setPuzzle(solvepuzzle(puzzle));
       togglePlaying(false);
     } else if (guesses && guesses.every(guess => typeof guess === 'number')) {
       setStatus('filled');
