@@ -19,7 +19,12 @@ function App() {
     setPuzzle(newPuzzle);
     const newRating = ratepuzzle(newPuzzle, 5);
     setRating(newRating);
-    setGuesses(newPuzzle.map(number => (number ? number + 1 : null)));
+    setGuesses(newPuzzle.map(number => (number !== null ? number + 1 : null)));
+  }
+
+  function giveUp() {
+    togglePlaying(false);
+    setPuzzle(solvepuzzle(puzzle));
   }
 
   useInterval(
@@ -39,6 +44,7 @@ function App() {
           .join('')
     ) {
       setStatus('solved');
+      setPuzzle(solvepuzzle(puzzle));
       togglePlaying(false);
     } else if (guesses && guesses.every(guess => typeof guess === 'number')) {
       setStatus('filled');
@@ -47,13 +53,13 @@ function App() {
 
   return (
     <div>
-      <Controls start={start} playing={playing} rating={rating} />
+      <Controls start={start} giveUp={giveUp} playing={playing} rating={rating} />
       <div className="grid">
         {puzzle.map((number, index) => (
           <Cell
             key={index}
             index={index}
-            number={number ? number + 1 : null}
+            number={number !== null ? number + 1 : null}
             onEnter={e => {
               e.preventDefault();
               const newGuesses = guesses.map((guess, i) => {
