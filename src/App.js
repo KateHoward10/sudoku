@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import useInterval from './hooks/useInterval';
 import { makepuzzle, solvepuzzle, ratepuzzle } from 'sudoku';
 import { formatTime, getRating } from './helpers';
-import { useCookies } from 'react-cookie';
 import Controls from './components/Controls';
 import Cell from './components/Cell';
 import Grid from './components/Grid';
@@ -14,15 +13,13 @@ function App() {
   const [rating, setRating] = useState(null);
   const [guesses, setGuesses] = useState(null);
   const [status, setStatus] = useState(null);
-  const [cookies, setCookie] = useCookies(['topGames']);
-  const { topGames } = cookies;
+  const [topGames, setTopGames] = useState(JSON.parse(localStorage.getItem('topGames')) || []);
 
   function start() {
     setPuzzle(Array.from(Array(81)).fill(null));
     setStatus(null);
     togglePlaying(true);
     const newPuzzle = makepuzzle();
-    console.log(solvepuzzle(newPuzzle).map(number => number + 1));
     setPuzzle(newPuzzle);
     const newRating = ratepuzzle(newPuzzle, 5);
     setRating(newRating);
@@ -53,14 +50,22 @@ function App() {
     ) {
       setStatus('solved');
       togglePlaying(false);
-      if (!topGames.length || time < topGames[0].time) {
-        const updatedGames = [{ time, rating }, ...topGames];
-        setCookie('topGames', JSON.stringify(updatedGames));
-      }
     } else if (guesses && guesses.every(guess => typeof guess === 'number')) {
       setStatus('filled');
     }
-  }, [guesses, puzzle, topGames, time, rating, setCookie]);
+  }, [guesses, puzzle, topGames, time, rating]);
+
+  useEffect(() => {
+    if (status === 'solved' && (topGames.length < 5 || time < topGames[topGames.length - 1].time)) {
+      const today = new Date();
+      let updatedGames = [{ time, rating, date: today.toLocaleDateString('en-GB') }, ...topGames].sort(
+        (a, b) => a.time - b.time
+      );
+      if (updatedGames.length > 5) updatedGames = updatedGames.slice(0, 5);
+      localStorage.setItem('topGames', JSON.stringify(updatedGames));
+      setTopGames(updatedGames);
+    }
+  }, [status]);
 
   return (
     <div>
@@ -88,14 +93,14 @@ function App() {
       <p>{formatTime(time)}</p>
       <div>
         <h3>Your top games:</h3>
-        <ul>
+        <ol>
           {topGames &&
             topGames.map((game, index) => (
               <li key={index}>
-                {formatTime(game.time)}: ({getRating(game.rating)})
+                <strong>{game.date}</strong> {formatTime(game.time)} ({getRating(game.rating)})
               </li>
             ))}
-        </ul>
+        </ol>
       </div>
     </div>
   );
