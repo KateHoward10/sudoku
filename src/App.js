@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import useInterval from './hooks/useInterval';
 import { makepuzzle, solvepuzzle, ratepuzzle } from 'sudoku';
-import { formatTime, getRating } from './helpers';
 import Controls from './components/Controls';
 import Cell from './components/Cell';
 import Grid from './components/Grid';
+import Footer from './components/Footer';
+import TopGames from './components/TopGames';
 
 function App() {
   const [playing, togglePlaying] = useState(false);
@@ -13,12 +14,14 @@ function App() {
   const [rating, setRating] = useState(null);
   const [guesses, setGuesses] = useState(null);
   const [status, setStatus] = useState(null);
+  const [modalOpen, toggleModalOpen] = useState(false);
   const [topGames, setTopGames] = useState(JSON.parse(localStorage.getItem('topGames')) || []);
 
   function start() {
-    setPuzzle(Array.from(Array(81)).fill(null));
+    setPuzzle(Array.from(Array(81)).fill(9));
     setStatus(null);
     togglePlaying(true);
+    setTime(0);
     const newPuzzle = makepuzzle();
     setPuzzle(newPuzzle);
     const newRating = ratepuzzle(newPuzzle, 5);
@@ -50,6 +53,7 @@ function App() {
     ) {
       setStatus('solved');
       togglePlaying(false);
+      toggleModalOpen(true);
     } else if (guesses && guesses.every(guess => typeof guess === 'number')) {
       setStatus('filled');
     }
@@ -69,7 +73,13 @@ function App() {
 
   return (
     <div>
-      <Controls start={start} giveUp={giveUp} playing={playing} rating={rating} />
+      <Controls
+        start={start}
+        giveUp={giveUp}
+        playing={playing}
+        rating={rating}
+        openModal={() => toggleModalOpen(true)}
+      />
       <Grid status={status}>
         {puzzle.map((number, index) => (
           <Cell
@@ -90,18 +100,14 @@ function App() {
           />
         ))}
       </Grid>
-      <p>{formatTime(time)}</p>
-      <div>
-        <h3>Your top games:</h3>
-        <ol>
-          {topGames &&
-            topGames.map((game, index) => (
-              <li key={index}>
-                <strong>{game.date}</strong> {formatTime(game.time)} ({getRating(game.rating)})
-              </li>
-            ))}
-        </ol>
-      </div>
+      <Footer time={time} openModal={() => toggleModalOpen(true)} />
+      {modalOpen && (
+        <TopGames
+          topGames={topGames}
+          closeModal={() => toggleModalOpen(false)}
+          thisTime={status === 'solved' ? time : null}
+        />
+      )}
     </div>
   );
 }
