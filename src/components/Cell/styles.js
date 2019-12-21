@@ -9,6 +9,7 @@ export const StyledCell = styled.div(
   border-bottom: ${(props.index > 17 && props.index < 27) || (props.index > 44 && props.index < 54) ? 2 : 1}px
     solid grey;
   font-size: 20px;
+  background: ${props.wrong ? 'rgba(255,0,0,0.6)' : 'transparent'};
 `
 );
 

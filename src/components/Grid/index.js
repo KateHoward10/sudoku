@@ -7,7 +7,7 @@ const Grid = styled.div`
   border: 1px solid grey;
   border-top: 2px solid grey;
   border-left: 2px solid grey;
-  background: ${props => (props.status === 'solved' ? 'lime' : props.status === 'filled' ? 'red' : 'transparent')};
+  background: transparent;
 `;
 
 export default Grid;

@@ -80,7 +80,7 @@ function App() {
         rating={rating}
         openModal={() => toggleModalOpen(true)}
       />
-      <Grid status={status}>
+      <Grid>
         {puzzle.map((number, index) => (
           <Cell
             key={index}
@@ -96,7 +96,7 @@ function App() {
               setGuesses(newGuesses);
             }}
             value={guesses && guesses[index] ? guesses[index] : undefined}
-            status={status}
+            wrong={status === 'filled' && solvepuzzle(puzzle)[index] + 1 !== guesses[index]}
           />
         ))}
       </Grid>
