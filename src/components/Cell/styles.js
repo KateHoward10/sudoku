@@ -14,8 +14,8 @@ export const StyledCell = styled.div(
 );
 
 export const Input = styled.input`
-  width: 40px;
-  height: 40px;
+  width: 90%;
+  height: 90%;
   border: none;
   text-align: center;
   font-size: 20px;

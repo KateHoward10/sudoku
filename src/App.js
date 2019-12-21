@@ -26,6 +26,7 @@ function App() {
     setPuzzle(newPuzzle);
     const newRating = ratepuzzle(newPuzzle, 5);
     setRating(newRating);
+    console.log(solvepuzzle(newPuzzle).map(number => number + 1));
     setGuesses(newPuzzle.map(number => (number !== null ? number + 1 : null)));
   }
 
