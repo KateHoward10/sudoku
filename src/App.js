@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import useInterval from './hooks/useInterval';
 import { makepuzzle, solvepuzzle, ratepuzzle } from 'sudoku';
 import Controls from './components/Controls';
+import Buttons from './components/Buttons';
 import Cell from './components/Cell';
 import Grid from './components/Grid';
 import Footer from './components/Footer';
@@ -15,6 +16,7 @@ function App() {
   const [guesses, setGuesses] = useState(null);
   const [status, setStatus] = useState(null);
   const [modalOpen, toggleModalOpen] = useState(false);
+  const [currentInput, setCurrentInput] = useState(null);
   const [topGames, setTopGames] = useState(JSON.parse(localStorage.getItem('topGames')) || []);
 
   function start() {
@@ -26,7 +28,6 @@ function App() {
     setPuzzle(newPuzzle);
     const newRating = ratepuzzle(newPuzzle, 5);
     setRating(newRating);
-    console.log(solvepuzzle(newPuzzle).map(number => number + 1));
     setGuesses(newPuzzle.map(number => (number !== null ? number + 1 : null)));
   }
 
@@ -81,12 +82,24 @@ function App() {
         rating={rating}
         openModal={() => toggleModalOpen(true)}
       />
+      <Buttons
+        onPress={e => {
+          e.preventDefault();
+          const newGuesses = guesses.map((guess, i) => {
+            if (i === currentInput) {
+              return parseInt(e.target.value);
+            } else return guess;
+          });
+          setGuesses(newGuesses);
+        }}
+      />
       <Grid>
         {puzzle.map((number, index) => (
           <Cell
             key={index}
             index={index}
             number={number !== null ? number + 1 : null}
+            onFocus={() => setCurrentInput(index)}
             onEnter={e => {
               e.preventDefault();
               const newGuesses = guesses.map((guess, i) => {

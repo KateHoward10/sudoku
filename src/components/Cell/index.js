@@ -1,10 +1,10 @@
 import React from 'react';
 import { StyledCell, Input } from './styles';
 
-function Cell({ index, number, onEnter, value, wrong }) {
+function Cell({ index, number, onFocus, onEnter, value, wrong }) {
   return (
     <StyledCell index={index} wrong={wrong}>
-      {number ? number : <Input value={value} onChange={onEnter} />}
+      {number ? number : <Input value={value} onFocus={onFocus} onChange={onEnter} />}
     </StyledCell>
   );
 }
