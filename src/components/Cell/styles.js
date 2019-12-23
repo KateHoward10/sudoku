@@ -27,8 +27,8 @@ export const Input = styled.input`
 `;
 
 export const Button = styled.button`
-  width: 80%;
-  height: 80%;
+  width: 100%;
+  height: 100%;
   border: none;
   display: flex;
   align-items: center;
@@ -37,7 +37,7 @@ export const Button = styled.button`
   font-size: 18px;
   font-family: cursive;
   background: transparent;
-  outline: ${props => (props.focused ? '2px solid lightblue' : 'none')};
+  background: ${props => (props.focused ? 'lightblue' : 'transparent')};
   @media screen and (min-width: 600px) {
     display: none;
   }

@@ -9,6 +9,9 @@ function Buttons({ onPress }) {
           {i + 1}
         </Button>
       ))}
+      <Button value={null} onClick={onPress}>
+        ←
+      </Button>
     </Container>
   );
 }
