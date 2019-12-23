@@ -1,10 +1,17 @@
 import React from 'react';
-import { StyledCell, Input } from './styles';
+import { StyledCell, Input, Button } from './styles';
 
 function Cell({ index, number, onFocus, onEnter, value, wrong }) {
   return (
     <StyledCell index={index} wrong={wrong}>
-      {number ? number : <Input value={value} onChange={onEnter} onFocus={onFocus} readonly />}
+      {number ? (
+        number
+      ) : (
+        <React.Fragment>
+          <Input value={value} onChange={onEnter} />
+          <Button onClick={onFocus}>{value}</Button>
+        </React.Fragment>
+      )}
     </StyledCell>
   );
 }

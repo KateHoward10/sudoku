@@ -21,4 +21,20 @@ export const Input = styled.input`
   font-size: 20px;
   font-family: cursive;
   background: transparent;
+  @media screen and (max-width: 600px) {
+    display: none;
+  }
+`;
+
+export const Button = styled.button`
+  width: 90%;
+  height: 90%;
+  border: none;
+  text-align: center;
+  font-size: 20px;
+  font-family: cursive;
+  background: transparent;
+  @media screen and (min-width: 600px) {
+    display: none;
+  }
 `;
