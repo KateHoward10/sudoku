@@ -37,6 +37,7 @@ export const Button = styled.button`
   font-size: 18px;
   font-family: cursive;
   background: transparent;
+  outline: ${props => (props.focused ? '2px solid lightblue' : 'none')};
   @media screen and (min-width: 600px) {
     display: none;
   }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyledCell, Input, Button } from './styles';
 
-function Cell({ index, number, onFocus, onEnter, value, wrong }) {
+function Cell({ index, number, onFocus, onEnter, value, wrong, currentInput }) {
   return (
     <StyledCell index={index} wrong={wrong}>
       {number ? (
@@ -9,7 +9,9 @@ function Cell({ index, number, onFocus, onEnter, value, wrong }) {
       ) : (
         <React.Fragment>
           <Input value={value} onChange={onEnter} />
-          <Button onFocus={onFocus}>{value}</Button>
+          <Button onFocus={onFocus} focused={currentInput === index}>
+            {value}
+          </Button>
         </React.Fragment>
       )}
     </StyledCell>

@@ -110,6 +110,7 @@ function App() {
             }}
             value={guesses && guesses[index] ? guesses[index] : undefined}
             wrong={status === 'filled' && solvepuzzle(puzzle)[index] + 1 !== guesses[index]}
+            currentInput={currentInput}
           />
         ))}
       </Grid>
