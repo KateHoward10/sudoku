@@ -4,7 +4,7 @@ import { StyledCell, Input } from './styles';
 function Cell({ index, number, onFocus, onEnter, value, wrong }) {
   return (
     <StyledCell index={index} wrong={wrong}>
-      {number ? number : <Input value={value} onFocus={onFocus} onChange={onEnter} />}
+      {number ? number : <Input value={value} onChange={onEnter} onFocus={onFocus} data-disable-touch-keyboard />}
     </StyledCell>
   );
 }

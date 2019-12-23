@@ -102,12 +102,14 @@ function App() {
             onFocus={() => setCurrentInput(index)}
             onEnter={e => {
               e.preventDefault();
-              const newGuesses = guesses.map((guess, i) => {
-                if (i === index) {
-                  return parseInt(e.target.value);
-                } else return guess;
-              });
-              setGuesses(newGuesses);
+              if (playing) {
+                const newGuesses = guesses.map((guess, i) => {
+                  if (i === index) {
+                    return parseInt(e.target.value);
+                  } else return guess;
+                });
+                setGuesses(newGuesses);
+              }
             }}
             value={guesses && guesses[index] ? guesses[index] : undefined}
             wrong={status === 'filled' && solvepuzzle(puzzle)[index] + 1 !== guesses[index]}
