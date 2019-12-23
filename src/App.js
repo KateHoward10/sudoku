@@ -24,6 +24,7 @@ function App() {
     setStatus(null);
     togglePlaying(true);
     setTime(0);
+    setCurrentInput(null);
     const newPuzzle = makepuzzle();
     setPuzzle(newPuzzle);
     const newRating = ratepuzzle(newPuzzle, 5);
