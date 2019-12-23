@@ -9,7 +9,7 @@ function Cell({ index, number, onFocus, onEnter, value, wrong }) {
       ) : (
         <React.Fragment>
           <Input value={value} onChange={onEnter} />
-          <Button onClick={onFocus}>{value}</Button>
+          <Button onFocus={onFocus}>{value}</Button>
         </React.Fragment>
       )}
     </StyledCell>

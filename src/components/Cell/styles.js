@@ -27,11 +27,14 @@ export const Input = styled.input`
 `;
 
 export const Button = styled.button`
-  width: 90%;
-  height: 90%;
+  width: 80%;
+  height: 80%;
   border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  font-size: 20px;
+  font-size: 18px;
   font-family: cursive;
   background: transparent;
   @media screen and (min-width: 600px) {
