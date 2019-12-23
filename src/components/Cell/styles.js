@@ -27,7 +27,7 @@ export const Input = styled.input`
 `;
 
 export const Button = styled.button`
-  width: 90%;
+  width: 100%;
   height: 100%;
   padding: 0;
   border: none;
@@ -35,7 +35,7 @@ export const Button = styled.button`
   align-items: center;
   justify-content: center;
   text-align: center;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
   font-family: cursive;
   background: transparent;
