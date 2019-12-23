@@ -27,17 +27,19 @@ export const Input = styled.input`
 `;
 
 export const Button = styled.button`
-  flex: 1;
+  width: 90%;
   height: 100%;
+  padding: 0;
   border: none;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   font-size: 18px;
+  font-weight: bold;
   font-family: cursive;
   background: transparent;
-  background: ${props => (props.focused ? 'lightblue' : 'transparent')};
+  box-shadow: ${props => (props.focused ? 'inset 0 0 10px dodgerblue' : 'none')};
   @media screen and (min-width: 600px) {
     display: none;
   }
