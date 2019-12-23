@@ -27,8 +27,8 @@ export const Input = styled.input`
 `;
 
 export const Button = styled.button`
-  width: 80%;
-  height: 80%;
+  flex: 1;
+  height: 100%;
   border: none;
   display: flex;
   align-items: center;
