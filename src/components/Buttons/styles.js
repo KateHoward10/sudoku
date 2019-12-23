@@ -16,4 +16,6 @@ export const Button = styled.button`
   background: transparent;
   padding: 5px;
   color: blue;
+  flex: 1;
+  margin: 2px;
 `;
