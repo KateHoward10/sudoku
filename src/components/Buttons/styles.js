@@ -14,4 +14,6 @@ export const Container = styled.div`
 export const Button = styled.button`
   font-size: 1rem;
   background: transparent;
+  padding: 5px;
+  color: blue;
 `;

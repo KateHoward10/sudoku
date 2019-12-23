@@ -54,24 +54,21 @@ function App() {
           .join('')
     ) {
       setStatus('solved');
+      if (topGames.length < 5 || time < topGames[topGames.length - 1].time) {
+        const today = new Date();
+        let updatedGames = [{ time, rating, date: today.toLocaleDateString('en-GB') }, ...topGames].sort(
+          (a, b) => a.time - b.time
+        );
+        if (updatedGames.length > 5) updatedGames = updatedGames.slice(0, 5);
+        localStorage.setItem('topGames', JSON.stringify(updatedGames));
+        setTopGames(updatedGames);
+      }
       togglePlaying(false);
       toggleModalOpen(true);
     } else if (guesses && guesses.every(guess => typeof guess === 'number')) {
       setStatus('filled');
     }
   }, [guesses, puzzle, topGames, time, rating]);
-
-  useEffect(() => {
-    if (status === 'solved' && (topGames.length < 5 || time < topGames[topGames.length - 1].time)) {
-      const today = new Date();
-      let updatedGames = [{ time, rating, date: today.toLocaleDateString('en-GB') }, ...topGames].sort(
-        (a, b) => a.time - b.time
-      );
-      if (updatedGames.length > 5) updatedGames = updatedGames.slice(0, 5);
-      localStorage.setItem('topGames', JSON.stringify(updatedGames));
-      setTopGames(updatedGames);
-    }
-  }, [status]);
 
   return (
     <div>
