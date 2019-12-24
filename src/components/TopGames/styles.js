@@ -18,7 +18,8 @@ export const Container = styled.div`
   align-items: center;
   justify-content: center;
   background: #fff;
-  padding: 20px;
+  padding: 10px;
+  max-width: 80vw;
 `;
 
 export const CloseButton = styled.button`

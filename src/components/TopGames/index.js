@@ -9,14 +9,18 @@ function TopGames({ topGames, closeModal, thisTime }) {
         <CloseButton onClick={closeModal}>✖</CloseButton>
         {thisTime && <h2>Solved in {formatTime(thisTime)}!</h2>}
         <span>Your top games:</span>
-        <ol>
-          {topGames &&
-            topGames.map((game, index) => (
-              <li key={index}>
-                <strong>{game.date}</strong> {formatTime(game.time)} ({getRating(game.rating)})
-              </li>
-            ))}
-        </ol>
+        {topGames.length ? (
+          <ol>
+            {topGames &&
+              topGames.map((game, index) => (
+                <li key={index}>
+                  <strong>{game.date}</strong> {formatTime(game.time)} ({getRating(game.rating)})
+                </li>
+              ))}
+          </ol>
+        ) : (
+          <p>None yet...</p>
+        )}
       </Container>
     </Background>
   );
