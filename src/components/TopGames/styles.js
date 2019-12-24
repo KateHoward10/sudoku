@@ -23,7 +23,8 @@ export const Container = styled.div`
 
 export const CloseButton = styled.button`
   border: none;
-  outline: none
+  padding: 0;
+  margin: 0;
   background: transparent;
   align-self: flex-end;
   font-size: 18px;
