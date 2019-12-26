@@ -27,7 +27,6 @@ function App() {
     setCurrentInput(null);
     const newPuzzle = makepuzzle();
     setPuzzle(newPuzzle);
-    console.log(solvepuzzle(newPuzzle).map(i => i + 1));
     const newRating = ratepuzzle(newPuzzle, 5);
     setRating(newRating);
     setGuesses(newPuzzle.map(number => (number !== null ? number + 1 : null)));
@@ -61,7 +60,7 @@ function App() {
         let updatedGames = topGames;
         updatedGames.push({ time, rating, date: today.toLocaleDateString('en-GB') });
         updatedGames = updatedGames.sort((a, b) => a.time - b.time);
-        if (updatedGames > 5) updatedGames = updatedGames.slice(0, 5);
+        if (updatedGames.length > 5) updatedGames = updatedGames.slice(0, 5);
         localStorage.setItem('topGames', JSON.stringify(updatedGames));
         setTopGames(updatedGames);
       }
