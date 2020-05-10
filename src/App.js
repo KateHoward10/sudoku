@@ -33,7 +33,7 @@ function App() {
   }
 
   function giveUp() {
-    setStatus(null);
+    setStatus('given up');
     togglePlaying(false);
     setPuzzle(solvepuzzle(puzzle));
   }
@@ -74,11 +74,11 @@ function App() {
   return (
     <div>
       <Controls
+        status={status}
         start={start}
         giveUp={giveUp}
         playing={playing}
         rating={rating}
-        openModal={() => toggleModalOpen(true)}
       />
       <Buttons
         onPress={e => {
