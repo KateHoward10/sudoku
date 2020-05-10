@@ -19,7 +19,7 @@ export const Input = styled.input`
   border: none;
   text-align: center;
   font-size: 20px;
-  font-family: cursive;
+  font-family: Kalam, cursive;
   background: transparent;
   @media screen and (max-width: 600px) {
     display: none;

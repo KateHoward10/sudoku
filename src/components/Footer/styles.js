@@ -8,5 +8,6 @@ export const Container = styled.div`
 `;
 
 export const OpenButton = styled.button`
+  font-size: 14px;
   background: transparent;
 `;
