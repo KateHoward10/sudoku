@@ -20,6 +20,7 @@ export const Input = styled.input`
   text-align: center;
   font-size: 20px;
   font-family: 'Kalam', cursive;
+  color: grey;
   background: transparent;
   @media screen and (max-width: 600px) {
     display: none;
@@ -37,7 +38,8 @@ export const Button = styled.button`
   text-align: center;
   font-size: 20px;
   font-weight: bold;
-  font-family: cursive;
+  font-family: 'Kalam', cursive;
+  color: grey;
   background: transparent;
   box-shadow: ${props => (props.focused ? 'inset 0 0 10px dodgerblue' : 'none')};
   @media screen and (min-width: 600px) {
