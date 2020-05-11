@@ -16,7 +16,7 @@ function App() {
   const [guesses, setGuesses] = useState(null);
   const [status, setStatus] = useState(null);
   const [modalOpen, toggleModalOpen] = useState(false);
-  const [highlight, toggleHighlight] = useState(false);
+  const [highlight, toggleHighlight] = useState(localStorage.getItem('highlightWrongNumbers') === 'true' || false);
   const [currentInput, setCurrentInput] = useState(null);
   const [topGames, setTopGames] = useState(JSON.parse(localStorage.getItem('topGames')) || []);
 

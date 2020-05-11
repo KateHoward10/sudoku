@@ -45,6 +45,7 @@ export const Toggle = styled.label`
   margin: 5px;
   box-shadow: inset 0 0 5px ${props => props.highlight ? "green" : "grey"};
   color: green;
+  font-size: 14px;
 `;
 
 export const Hidden = styled.input`

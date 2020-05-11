@@ -3,6 +3,12 @@ import { formatTime, getRating } from '../../helpers.js';
 import { Background, Container, ToggleContainer, Toggle, Hidden, CloseButton } from './styles';
 
 function Settings({ topGames, closeModal, thisTime, highlight, toggleHighlight }) {
+
+  function toggle(e) {
+    toggleHighlight(e.target.checked);
+    localStorage.setItem('highlightWrongNumbers', e.target.checked);
+  }
+
   return (
     <Background>
       <Container>
@@ -27,7 +33,7 @@ function Settings({ topGames, closeModal, thisTime, highlight, toggleHighlight }
             <Toggle highlight={highlight}>
               <Hidden
                 type="checkbox"
-                onChange={e => toggleHighlight(e.target.checked)}
+                onChange={toggle}
               />
               {highlight && "✔"}
             </Toggle>
