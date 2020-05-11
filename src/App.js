@@ -6,7 +6,7 @@ import Buttons from './components/Buttons';
 import Cell from './components/Cell';
 import Grid from './components/Grid';
 import Footer from './components/Footer';
-import TopGames from './components/TopGames';
+import Settings from './components/Settings';
 
 function App() {
   const [playing, togglePlaying] = useState(false);
@@ -16,6 +16,7 @@ function App() {
   const [guesses, setGuesses] = useState(null);
   const [status, setStatus] = useState(null);
   const [modalOpen, toggleModalOpen] = useState(false);
+  const [highlight, toggleHighlight] = useState(false);
   const [currentInput, setCurrentInput] = useState(null);
   const [topGames, setTopGames] = useState(JSON.parse(localStorage.getItem('topGames')) || []);
 
@@ -110,17 +111,19 @@ function App() {
               }
             }}
             value={guesses && guesses[index] ? guesses[index] : undefined}
-            wrong={status === 'filled' && solvepuzzle(puzzle)[index] + 1 !== guesses[index]}
+            wrong={((highlight && guesses && guesses[index]) || status === 'filled') && solvepuzzle(puzzle)[index] + 1 !== guesses[index]}
             currentInput={currentInput}
           />
         ))}
       </Grid>
       <Footer time={time} openModal={() => toggleModalOpen(true)} />
       {modalOpen && (
-        <TopGames
+        <Settings
           topGames={topGames}
           closeModal={() => toggleModalOpen(false)}
           thisTime={status === 'solved' ? time : null}
+          highlight={highlight}
+          toggleHighlight={toggleHighlight}
         />
       )}
     </div>

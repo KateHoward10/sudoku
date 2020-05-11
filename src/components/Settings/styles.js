@@ -28,3 +28,25 @@ export const CloseButton = styled.button`
   align-self: flex-end;
   font-size: 18px;
 `;
+
+export const ToggleContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
+export const Toggle = styled.label`
+  width: 20px;
+  height: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: 5px;
+  box-shadow: inset 0 0 5px ${props => props.highlight ? "green" : "grey"};
+  color: green;
+`;
+
+export const Hidden = styled.input`
+  display: none;
+`;

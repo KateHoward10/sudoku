@@ -1,8 +1,8 @@
 import React from 'react';
 import { formatTime, getRating } from '../../helpers.js';
-import { Background, Container, CloseButton } from './styles';
+import { Background, Container, ToggleContainer, Toggle, Hidden, CloseButton } from './styles';
 
-function TopGames({ topGames, closeModal, thisTime }) {
+function Settings({ topGames, closeModal, thisTime, highlight, toggleHighlight }) {
   return (
     <Background>
       <Container>
@@ -21,9 +21,21 @@ function TopGames({ topGames, closeModal, thisTime }) {
         ) : (
           <p>None yet...</p>
         )}
+        {!thisTime && (
+          <ToggleContainer>
+            Highlight wrong numbers
+            <Toggle highlight={highlight}>
+              <Hidden
+                type="checkbox"
+                onChange={e => toggleHighlight(e.target.checked)}
+              />
+              {highlight && "✔"}
+            </Toggle>
+          </ToggleContainer>
+        )}
       </Container>
     </Background>
   );
 }
 
-export default TopGames;
+export default Settings;
