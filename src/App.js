@@ -44,7 +44,7 @@ function App() {
     if (playing) {
       const newGuesses = guesses.map((guess, i) => {
         if (i === index) {
-          return parseInt(e.target.value);
+          return e.target.value ? parseInt(e.target.value) : null;
         } else return guess;
       });
       setGuesses(newGuesses);
