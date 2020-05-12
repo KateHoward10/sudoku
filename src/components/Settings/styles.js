@@ -19,6 +19,7 @@ export const Container = styled.div`
   justify-content: center;
   background: #fff;
   padding: 10px;
+  min-width: 300px;
   max-width: 80vw;
 `;
 
@@ -36,15 +37,15 @@ export const ToggleContainer = styled.div`
 `;
 
 export const Toggle = styled.label`
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin: 5px;
-  box-shadow: inset 0 0 5px ${props => props.highlight ? "green" : "grey"};
-  color: green;
+  margin-left: 5px;
+  box-shadow: inset 0 0 5px ${props => props.highlight ? "dodgerblue" : "grey"};
+  color: dodgerblue;
   font-size: 14px;
 `;
 

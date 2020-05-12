@@ -39,6 +39,18 @@ function App() {
     setPuzzle(solvepuzzle(puzzle));
   }
 
+  function selectNumber(e, index) {
+    e.preventDefault();
+    if (playing) {
+      const newGuesses = guesses.map((guess, i) => {
+        if (i === index) {
+          return parseInt(e.target.value);
+        } else return guess;
+      });
+      setGuesses(newGuesses);
+    }
+  }
+
   useInterval(
     () => {
       setTime(time + 1);
@@ -58,8 +70,7 @@ function App() {
       setStatus('solved');
       if (topGames.length < 5 || time < topGames[topGames.length - 1].time) {
         const today = new Date();
-        let updatedGames = topGames;
-        updatedGames.push({ time, rating, date: today.toLocaleDateString('en-GB') });
+        let updatedGames = [{ time, rating, date: today.toLocaleDateString('en-GB') }, ...topGames];
         updatedGames = updatedGames.sort((a, b) => a.time - b.time);
         if (updatedGames.length > 5) updatedGames = updatedGames.slice(0, 5);
         localStorage.setItem('topGames', JSON.stringify(updatedGames));
@@ -70,7 +81,7 @@ function App() {
     } else if (guesses && guesses.every(guess => typeof guess === 'number')) {
       setStatus('filled');
     }
-  }, [guesses, puzzle, topGames, time, rating]);
+  }, [guesses]);
 
   return (
     <div>
@@ -81,17 +92,7 @@ function App() {
         playing={playing}
         rating={rating}
       />
-      <Buttons
-        onPress={e => {
-          e.preventDefault();
-          const newGuesses = guesses.map((guess, i) => {
-            if (i === currentInput) {
-              return parseInt(e.target.value);
-            } else return guess;
-          });
-          setGuesses(newGuesses);
-        }}
-      />
+      <Buttons selectNumber={e => selectNumber(e, currentInput)} />
       <Grid>
         {puzzle.map((number, index) => (
           <Cell
@@ -99,17 +100,7 @@ function App() {
             index={index}
             number={number !== null ? number + 1 : null}
             onFocus={() => setCurrentInput(index)}
-            onEnter={e => {
-              e.preventDefault();
-              if (playing) {
-                const newGuesses = guesses.map((guess, i) => {
-                  if (i === index) {
-                    return parseInt(e.target.value);
-                  } else return guess;
-                });
-                setGuesses(newGuesses);
-              }
-            }}
+            onChange={e => selectNumber(e, index)}
             value={guesses && guesses[index] ? guesses[index] : undefined}
             wrong={((highlight && guesses && guesses[index]) || status === 'filled') && solvepuzzle(puzzle)[index] + 1 !== guesses[index]}
             currentInput={currentInput}
