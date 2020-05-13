@@ -101,7 +101,7 @@ function App() {
             number={number !== null ? number + 1 : null}
             onFocus={() => setCurrentInput(index)}
             onChange={e => selectNumber(e, index)}
-            value={guesses && guesses[index] ? guesses[index] : undefined}
+            value={guesses && guesses[index] ? guesses[index] : ''}
             wrong={((highlight && guesses && guesses[index]) || status === 'filled') && solvepuzzle(puzzle)[index] + 1 !== guesses[index]}
             currentInput={currentInput}
           />
