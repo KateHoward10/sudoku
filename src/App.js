@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import useInterval from './hooks/useInterval';
 import { makepuzzle, solvepuzzle, ratepuzzle } from 'sudoku';
 import Controls from './components/Controls';
@@ -51,12 +51,18 @@ function App() {
     }
   }
 
-  useInterval(
-    () => {
-      setTime(time + 1);
-    },
-    playing ? 1000 : null
-  );
+  const getTopGames = useCallback((games) => {
+    if (games.length < 5 || time < games[games.length - 1].time) {
+      const today = new Date();
+      let updatedGames = [{ time, rating, date: today.toLocaleDateString('en-GB') }, ...games];
+      updatedGames = updatedGames.sort((a, b) => a.time - b.time);
+      if (updatedGames.length > 5) updatedGames = updatedGames.slice(0, 5);
+      localStorage.setItem('topGames', JSON.stringify(updatedGames));
+      return updatedGames;
+    } else return games;
+  }, [time, rating]);
+
+  useInterval(() => setTime(time + 1), playing ? 1000 : null);
 
   useEffect(() => {
     if (
@@ -68,20 +74,13 @@ function App() {
           .join('')
     ) {
       setStatus('solved');
-      if (topGames.length < 5 || time < topGames[topGames.length - 1].time) {
-        const today = new Date();
-        let updatedGames = [{ time, rating, date: today.toLocaleDateString('en-GB') }, ...topGames];
-        updatedGames = updatedGames.sort((a, b) => a.time - b.time);
-        if (updatedGames.length > 5) updatedGames = updatedGames.slice(0, 5);
-        localStorage.setItem('topGames', JSON.stringify(updatedGames));
-        setTopGames(updatedGames);
-      }
+      setTopGames(t => getTopGames(t));
       togglePlaying(false);
       toggleModalOpen(true);
     } else if (guesses && guesses.every(guess => typeof guess === 'number')) {
       setStatus('filled');
     }
-  }, [guesses]);
+  }, [guesses, puzzle, getTopGames]);
 
   return (
     <div>
