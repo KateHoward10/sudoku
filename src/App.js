@@ -36,7 +36,7 @@ function App() {
   function giveUp() {
     setStatus('given up');
     togglePlaying(false);
-    setPuzzle(solvepuzzle(puzzle));
+    setGuesses(solvepuzzle(puzzle).map(number => number + 1));
   }
 
   function selectNumber(e, index) {
@@ -66,6 +66,7 @@ function App() {
 
   useEffect(() => {
     if (
+      !status &&
       guesses &&
       solvepuzzle(puzzle) &&
       guesses.join('') ===
@@ -80,7 +81,7 @@ function App() {
     } else if (guesses && guesses.every(guess => typeof guess === 'number')) {
       setStatus('filled');
     }
-  }, [guesses, puzzle, getTopGames]);
+  }, [status, guesses, puzzle, getTopGames]);
 
   return (
     <div>
