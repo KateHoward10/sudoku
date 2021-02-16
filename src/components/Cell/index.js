@@ -8,7 +8,7 @@ const Cell = ({ index, number, onFocus, onChange, value, wrong, currentInput }) 
     ) : (
       <React.Fragment>
         <Input type="text" value={value} onChange={onChange} />
-        <Button onClick={onFocus} focused={currentInput === index && !wrong}>
+        <Button onClick={onFocus} focused={currentInput === index}>
           {value}
         </Button>
       </React.Fragment>
