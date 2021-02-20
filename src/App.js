@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import useInterval from './hooks/useInterval';
+import usePersistedState from './hooks/usePersistedState';
 import { makepuzzle, solvepuzzle, ratepuzzle } from 'sudoku';
 import Controls from './components/Controls';
 import Buttons from './components/Buttons';
@@ -16,9 +17,9 @@ function App() {
   const [guesses, setGuesses] = useState(null);
   const [status, setStatus] = useState(null);
   const [modalOpen, toggleModalOpen] = useState(false);
-  const [highlight, toggleHighlight] = useState(localStorage.getItem('highlightWrongNumbers') === 'true' || false);
   const [currentInput, setCurrentInput] = useState(null);
-  const [topGames, setTopGames] = useState(JSON.parse(localStorage.getItem('topGames')) || []);
+  const [highlight, toggleHighlight] = usePersistedState('highlightWrongNumbers', false);
+  const [topGames, setTopGames] = usePersistedState('topGames', []);
 
   function start() {
     setPuzzle(Array.from(Array(81)).fill(9));
@@ -30,7 +31,8 @@ function App() {
     setPuzzle(newPuzzle);
     const newRating = ratepuzzle(newPuzzle, 5);
     setRating(newRating);
-    setGuesses(newPuzzle.map(number => (number !== null ? number + 1 : null)));
+    const guesses = newPuzzle.map(number => (number !== null ? number + 1 : null));
+    setGuesses(guesses);
   }
 
   function giveUp() {
@@ -57,7 +59,6 @@ function App() {
       let updatedGames = [{ time, rating, date: today.toLocaleDateString('en-GB') }, ...games];
       updatedGames = updatedGames.sort((a, b) => a.time - b.time);
       if (updatedGames.length > 5) updatedGames = updatedGames.slice(0, 5);
-      localStorage.setItem('topGames', JSON.stringify(updatedGames));
       return updatedGames;
     } else return games;
   }, [time, rating]);
@@ -81,7 +82,7 @@ function App() {
     } else if (guesses && guesses.every(guess => typeof guess === 'number')) {
       setStatus('filled');
     }
-  }, [status, guesses, puzzle, getTopGames]);
+  }, [status, guesses, puzzle, setTopGames, getTopGames]);
 
   return (
     <div>
