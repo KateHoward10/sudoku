@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import useInterval from './hooks/useInterval';
-import usePersistedState from './hooks/usePersistedState';
+import { usePersistedState, useSavedState } from './hooks/usePersistedState';
 import { makepuzzle, solvepuzzle, ratepuzzle } from 'sudoku';
 import Controls from './components/Controls';
 import Buttons from './components/Buttons';
@@ -11,10 +11,10 @@ import Settings from './components/Settings';
 
 function App() {
   const [playing, togglePlaying] = useState(false);
-  const [time, setTime] = useState(0);
-  const [puzzle, setPuzzle] = useState(Array.from(Array(81)));
-  const [rating, setRating] = useState(null);
-  const [guesses, setGuesses] = useState(null);
+  const [time, setTime, saveTime] = useSavedState('savedTime', 0);
+  const [puzzle, setPuzzle, savePuzzle] = useSavedState('savedPuzzle', Array.from(Array(81)));
+  const [rating, setRating, saveRating] = useSavedState('savedRating', null);
+  const [guesses, setGuesses, saveGuesses] = useSavedState('savedGuesses', null);
   const [status, setStatus] = useState(null);
   const [modalOpen, toggleModalOpen] = useState(false);
   const [currentInput, setCurrentInput] = useState(null);
@@ -51,6 +51,20 @@ function App() {
       });
       setGuesses(newGuesses);
     }
+  }
+
+  function pause() {
+    togglePlaying(false);
+    setStatus('paused');
+    saveTime();
+    savePuzzle();
+    saveRating();
+    saveGuesses();
+  }
+
+  function resume() {
+    togglePlaying(true);
+    setStatus(null);
   }
 
   const getTopGames = useCallback((games) => {
@@ -105,10 +119,11 @@ function App() {
             value={guesses && guesses[index] ? guesses[index] : ''}
             wrong={((highlight && guesses && guesses[index]) || status === 'filled') && solvepuzzle(puzzle)[index] + 1 !== guesses[index]}
             currentInput={currentInput}
+            status={status}
           />
         ))}
       </Grid>
-      <Footer time={time} openModal={() => toggleModalOpen(true)} />
+      <Footer time={time} playing={playing} pause={pause} resume={resume} status={status} openModal={() => toggleModalOpen(true)} />
       {modalOpen && (
         <Settings
           topGames={topGames}

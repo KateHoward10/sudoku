@@ -7,7 +7,7 @@ export const Container = styled.div`
   justify-content: space-between;
 `;
 
-export const OpenButton = styled.button`
+export const Button = styled.button`
   font-size: 14px;
   background: transparent;
 `;

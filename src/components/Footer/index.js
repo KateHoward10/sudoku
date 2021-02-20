@@ -1,12 +1,16 @@
 import React from 'react';
 import { formatTime } from '../../helpers.js';
-import { Container, OpenButton } from './styles';
+import { Container, Button } from './styles';
 
-function Footer({ time, openModal }) {
+function Footer({ time, playing, pause, resume, status, openModal }) {
   return (
     <Container>
       <p>{formatTime(time)}</p>
-      <OpenButton onClick={openModal}>Settings</OpenButton>
+      {(playing && !status) && <Button onClick={pause}>Pause</Button>}
+      {status === 'paused' && (
+        <Button onClick={resume}>Resume</Button>
+      )}
+      <Button onClick={openModal}>Settings</Button>
     </Container>
   );
 }
