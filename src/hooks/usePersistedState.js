@@ -19,9 +19,10 @@ export function usePersistedState(key, defaultValue) {
   return [value, setValue];
 }
 
-export function useSavedState(key, defaultValue) {
+export function useSavedState(key, defaultValue, newValue) {
   const [value, setValue] = usePersistedValue(key, defaultValue);
-  const saveValue = () => localStorage.setItem(key, JSON.stringify(value));
+  const saveValue = (newValue) => localStorage.setItem(key, JSON.stringify(newValue || value));
+  const clearValue = () => localStorage.setItem(key, JSON.stringify(defaultValue));
 
-  return [value, setValue, saveValue];
+  return [value, setValue, saveValue, clearValue];
 }

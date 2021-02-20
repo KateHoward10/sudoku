@@ -11,11 +11,11 @@ import Settings from './components/Settings';
 
 function App() {
   const [playing, togglePlaying] = useState(false);
-  const [time, setTime, saveTime] = useSavedState('savedTime', 0);
-  const [puzzle, setPuzzle, savePuzzle] = useSavedState('savedPuzzle', Array.from(Array(81)));
-  const [rating, setRating, saveRating] = useSavedState('savedRating', null);
-  const [guesses, setGuesses, saveGuesses] = useSavedState('savedGuesses', null);
-  const [status, setStatus] = useState(null);
+  const [time, setTime, saveTime, clearTime] = useSavedState('savedTime', 0);
+  const [puzzle, setPuzzle, savePuzzle, clearPuzzle] = useSavedState('savedPuzzle', Array.from(Array(81)));
+  const [rating, setRating, saveRating, clearRating] = useSavedState('savedRating', null);
+  const [guesses, setGuesses, saveGuesses, clearGuesses] = useSavedState('savedGuesses', null);
+  const [status, setStatus, saveStatus, clearStatus] = useSavedState('savedStatus', null);
   const [modalOpen, toggleModalOpen] = useState(false);
   const [currentInput, setCurrentInput] = useState(null);
   const [highlight, toggleHighlight] = usePersistedState('highlightWrongNumbers', false);
@@ -56,6 +56,7 @@ function App() {
   function pause() {
     togglePlaying(false);
     setStatus('paused');
+    saveStatus('paused');
     saveTime();
     savePuzzle();
     saveRating();
@@ -65,6 +66,11 @@ function App() {
   function resume() {
     togglePlaying(true);
     setStatus(null);
+    clearStatus();
+    clearTime();
+    clearPuzzle();
+    clearRating();
+    clearGuesses();
   }
 
   const getTopGames = useCallback((games) => {
@@ -96,7 +102,7 @@ function App() {
     } else if (guesses && guesses.every(guess => typeof guess === 'number')) {
       setStatus('filled');
     }
-  }, [status, guesses, puzzle, setTopGames, getTopGames]);
+  }, [status, setStatus, guesses, puzzle, setTopGames, getTopGames]);
 
   return (
     <div>
