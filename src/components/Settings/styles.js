@@ -44,7 +44,7 @@ export const Toggle = styled.label`
   align-items: center;
   justify-content: center;
   margin-left: 5px;
-  box-shadow: inset 0 0 5px ${props => props.highlight ? "dodgerblue" : "grey"};
+  box-shadow: inset 0 0 5px ${props => props.highlight ? 'dodgerblue' : 'grey'};
   color: dodgerblue;
   font-size: 14px;
 `;

@@ -6,7 +6,6 @@ function Settings({ topGames, closeModal, thisTime, highlight, toggleHighlight }
 
   function toggle(e) {
     toggleHighlight(e.target.checked);
-    localStorage.setItem('highlightWrongNumbers', e.target.checked);
   }
 
   return (
@@ -32,10 +31,10 @@ function Settings({ topGames, closeModal, thisTime, highlight, toggleHighlight }
             Highlight wrong numbers
             <Toggle highlight={highlight}>
               <Hidden
-                type="checkbox"
+                type='checkbox'
                 onChange={toggle}
               />
-              {highlight && "✔"}
+              {highlight && '✔'}
             </Toggle>
           </ToggleContainer>
         )}
