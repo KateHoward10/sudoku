@@ -10,7 +10,6 @@ import Footer from './components/Footer';
 import Settings from './components/Settings';
 
 function App() {
-  const [playing, togglePlaying] = useState(false);
   const [time, setTime, saveTime, clearTime] = useSavedState('savedTime', 0);
   const [puzzle, setPuzzle, savePuzzle, clearPuzzle] = useSavedState('savedPuzzle', Array.from(Array(81)));
   const [rating, setRating, saveRating, clearRating] = useSavedState('savedRating', null);
@@ -23,8 +22,7 @@ function App() {
 
   function start() {
     setPuzzle(Array.from(Array(81)).fill(9));
-    setStatus(null);
-    togglePlaying(true);
+    setStatus('playing');
     setTime(0);
     setCurrentInput(null);
     const newPuzzle = makepuzzle();
@@ -37,13 +35,12 @@ function App() {
 
   function giveUp() {
     setStatus('given up');
-    togglePlaying(false);
     setGuesses(solvepuzzle(puzzle).map(number => number + 1));
   }
 
   function selectNumber(e, index) {
     e.preventDefault();
-    if (playing) {
+    if (status === 'playing') {
       const newGuesses = guesses.map((guess, i) => {
         if (i === index) {
           return e.target.value ? parseInt(e.target.value) : null;
@@ -54,7 +51,6 @@ function App() {
   }
 
   function pause() {
-    togglePlaying(false);
     setStatus('paused');
     saveStatus('paused');
     saveTime();
@@ -64,8 +60,7 @@ function App() {
   }
 
   function resume() {
-    togglePlaying(true);
-    setStatus(null);
+    setStatus('playing');
     clearStatus();
     clearTime();
     clearPuzzle();
@@ -83,11 +78,11 @@ function App() {
     } else return games;
   }, [time, rating]);
 
-  useInterval(() => setTime(time + 1), playing ? 1000 : null);
+  useInterval(() => setTime(time + 1), status === 'playing' ? 1000 : null);
 
   useEffect(() => {
     if (
-      !status &&
+      status === 'playing' &&
       guesses &&
       solvepuzzle(puzzle) &&
       guesses.join('') ===
@@ -97,7 +92,6 @@ function App() {
     ) {
       setStatus('solved');
       setTopGames(t => getTopGames(t));
-      togglePlaying(false);
       toggleModalOpen(true);
     } else if (guesses && guesses.every(guess => typeof guess === 'number')) {
       setStatus('filled');
@@ -107,10 +101,9 @@ function App() {
   return (
     <div>
       <Controls
-        status={status}
         start={start}
         giveUp={giveUp}
-        playing={playing}
+        status={status}
         rating={rating}
       />
       <Buttons selectNumber={e => selectNumber(e, currentInput)} />
@@ -129,7 +122,7 @@ function App() {
           />
         ))}
       </Grid>
-      <Footer time={time} playing={playing} pause={pause} resume={resume} status={status} openModal={() => toggleModalOpen(true)} />
+      <Footer time={time} pause={pause} resume={resume} status={status} openModal={() => toggleModalOpen(true)} />
       {modalOpen && (
         <Settings
           topGames={topGames}

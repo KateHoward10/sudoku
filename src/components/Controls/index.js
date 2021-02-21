@@ -2,7 +2,8 @@ import React from 'react';
 import { getRating } from '../../helpers';
 import { Container, Button, StarContainer } from './styles';
 
-function Controls({ start, giveUp, playing, rating }) {
+function Controls({ start, giveUp, status, rating }) {
+  const playing = status === 'playing';
 
   function onClick() {
     if (window.confirm("Are you sure you want to give up?")) giveUp();
